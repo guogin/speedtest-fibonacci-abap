@@ -33,6 +33,8 @@ CLASS zcl_leibniz_formula IMPLEMENTATION.
     ENDWHILE.
 
     pi = pi * 4.
+    
+    res = pi.
   ENDMETHOD.
 
 ENDCLASS.
