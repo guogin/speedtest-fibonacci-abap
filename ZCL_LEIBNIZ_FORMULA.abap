@@ -4,7 +4,7 @@ CLASS zcl_leibniz_formula DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
-    TYPES: float TYPE decfloat34.
+    TYPES: float TYPE decfloat16.
     METHODS: constructor IMPORTING rounds TYPE int8.
 
     METHODS: calculate_pi RETURNING VALUE(res) TYPE float.
@@ -28,12 +28,12 @@ CLASS zcl_leibniz_formula IMPLEMENTATION.
 
     WHILE cnt < m_rounds + 2.
       x = x * -1.
-      pi = pi + x / ( 2 * conv decfloat34( cnt ) - 1 ).
+      pi = pi + x / ( 2 * conv float( cnt ) - 1 ).
       cnt += 1.
     ENDWHILE.
 
     pi = pi * 4.
-    
+
     res = pi.
   ENDMETHOD.
 

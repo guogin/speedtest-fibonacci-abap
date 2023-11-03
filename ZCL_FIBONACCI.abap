@@ -12,6 +12,10 @@ CLASS zcl_fibonacci DEFINITION
     METHODS: recursive
       IMPORTING counter    TYPE i
       RETURNING VALUE(ret) TYPE REF TO cl_abap_bigint.
+
+    METHODS: recursive_noop
+      IMPORTING counter    TYPE i
+      RETURNING VALUE(ret) TYPE REF TO cl_abap_bigint.
   PROTECTED SECTION.
   PRIVATE SECTION.
     TYPES: BEGIN OF ts_memory_item,
@@ -92,12 +96,28 @@ CLASS zcl_fibonacci IMPLEMENTATION.
     n1 = me->_recursive( EXPORTING counter = counter - 1 CHANGING memo = memo )->clone(  ).
     n2 = me->_recursive( EXPORTING counter = counter - 2 CHANGING memo = memo )->clone(  ).
 
-    clear: element.
+    CLEAR: element.
     element-index = counter.
     element-value = n1->add( n2 ).
     INSERT element INTO TABLE memo.
 
     ret = element-value.
+    RETURN.
+  ENDMETHOD.
+
+  METHOD recursive_noop.
+    IF counter < 2.
+      ret = cl_abap_bigint=>factory_from_int4( counter ).
+      RETURN.
+    ENDIF.
+
+    DATA: n1 TYPE REF TO cl_abap_bigint,
+          n2 TYPE REF TO cl_abap_bigint.
+
+    n1 = me->recursive_noop( counter - 1 )->clone(  ).
+    n2 = me->recursive_noop( counter - 2 )->clone(  ).
+
+    ret = n1->add( n2 ).
     RETURN.
   ENDMETHOD.
 
